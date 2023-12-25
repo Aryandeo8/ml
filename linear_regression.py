@@ -1,22 +1,53 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-s=str(input("what would you like to predict:"))
-df = pd.read_csv('train_data_Linear.csv')
-c=df.columns.values.tolist()
-x=np.array(df['label'])
-y=np.array(df[s])
-slope,intercept=np.polyfit(x,y,deg=1)
-line=x*slope+intercept
-plt.plot(line)
-dft=pd.read_csv('test_data_linear.csv')
-pv=np.array(np.add(np.multiply(np.array(dft['ID']),slope),intercept))
+from sklearn.metrics import r2_score 
+df=pd.read_csv('Lineardata_train.csv')
+c=np.array(df)
+x=c[0:,1:]
+y=c[0:,0]
+def calcost(x, y, w, b):
+    m = len(y)
+    predictions = np.dot(x, w) + b
+    cost = np.sum((predictions - y) ** 2) / (2 * m)
+    return cost
+def gradient(x,y,w,b):
+  m,n=x.shape
+  djdw=np.zeros(n,).tolist()
+  djdb=0.0
+  for i in range(m):
+    error=(np.dot(x[i],w)+b)-y[i]
+    for j in range(n):
+      djdw[j] = djdw[j] + error * x[i][j]
+    djdb=djdb + error
+  djdw=np.divide(djdw,m)
+  djdb=djdb/m
+  return djdw,djdb
+def grad(x, y, wt, bt, lr, iters):
+    costh = []
+    m, n = x.shape
+
+    for i in range(iters):
+        djdw, djdb = gradient(x, y, wt, bt)
+        wt =np.subtract(wt,lr * djdw)
+        bt -= lr * djdb
+        costx = calcost(x, y, wt, bt)
+        costh.append(costx)
+    return wt, bt, costh
+win=np.zeros(20,)
+bin=0.0
+lr=0.000035555555555
+iters=100000
+wf,bf,costh=grad(x,y,win,bin,lr,iters)
+dft=pd.read_csv('Lineardata_test.csv')
+c=np.array(df)
+xt=c[:,1:]
+yt=c[:,0]
+pv=[]
+for i in range(xt.shape[0]):
+  v=np.dot(xt[i],final_weights )+final_bias
+  pv.append(v)
+r2=r2_score(yt,pv)
+print(costh[-1])
+print(r2)
 print(pv)
-l=len(pv)
-na=np.subtract(dft[s],pv)
-s1=np.square(na)
-g=0
-for i in s1:
-  g=g+i 
-cost_function=g/l
-print(cost_function)
