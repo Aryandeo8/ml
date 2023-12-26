@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.metrics import r2_score 
+import matplotlib.pyplot as plt 
 df=pd.read_csv('Lineardata_train.csv')
 c=np.array(df)
 x=c[0:,1:]
@@ -47,7 +46,5 @@ pv=[]
 for i in range(xt.shape[0]):
   v=np.dot(xt[i],final_weights )+final_bias
   pv.append(v)
-r2=r2_score(yt,pv)
 print(costh[-1])
-print(r2)
 print(pv)
