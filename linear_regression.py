@@ -36,7 +36,7 @@ def grad(x, y, wt, bt, lr, iters):
 win=np.zeros(20,)
 bin=0.0
 lr=0.000035555555555
-iters=100000
+iters=1000000
 wf,bf,costh=grad(x,y,win,bin,lr,iters)
 dft=pd.read_csv('Lineardata_test.csv')
 c=np.array(df)
